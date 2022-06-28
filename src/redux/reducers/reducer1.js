@@ -5,16 +5,16 @@ const INITIAL_STATE = {
   assertions: '',
   score: '',
   gravatarEmail: '',
-  img: '',
+  imgURL: '',
   token: '',
 };
 
-const loginReducer = (state = INITIAL_STATE, action) => {
-  switch (action.type) {
+const loginReducer = (state = INITIAL_STATE, { type, payload }) => {
+  switch (type) {
   case SEND_USER_DATA:
-    return { ...state, img: action.imgURL };
+    return { ...state, ...payload };
   case CHANGE_TOKEN:
-    return { ...state, token: action.token };
+    return { ...state, ...payload };
   default: return { ...state };
   }
 };
