@@ -49,7 +49,7 @@ describe('5 - [TELA DE JOGO] Crie um _header_ que deve conter as informações d
   });
 });
 
-describe('6 - [TELA DE JOGO] Crie a página de jogo que deve conter as informações relacionadas à pergunta', () => {
+describe.only('6 - [TELA DE JOGO] Crie a página de jogo que deve conter as informações relacionadas à pergunta', () => {
   const loadQuestionsPage = () => {
     cy.visit('http://localhost:3000/', {
       onBeforeLoad(win) {
