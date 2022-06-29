@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { requireGravatar } from '../redux/actions';
 
 class Header extends Component {
   render() {
@@ -31,10 +30,6 @@ const mapStateToProps = (state) => ({
   score: state.player.score,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  getImage: (gravatarEmail) => dispatch(requireGravatar(gravatarEmail)),
-});
-
 Header.propTypes = {
   imgURL: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
@@ -45,4 +40,4 @@ Header.defaultProps = {
   score: 0,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps)(Header);
