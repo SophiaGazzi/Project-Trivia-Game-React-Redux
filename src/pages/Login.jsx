@@ -34,7 +34,6 @@ class Login extends Component {
   }
 
   handleClick = async () => {
-    // getToken, getImage,
     const { history, getToken, getImage, getQuestions } = this.props;
     const objUser = { ...this.state };
     delete objUser.btnDisabled;
