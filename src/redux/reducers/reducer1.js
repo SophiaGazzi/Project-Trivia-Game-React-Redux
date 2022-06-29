@@ -1,4 +1,4 @@
-import { SEND_USER_DATA, CHANGE_TOKEN } from '../actions';
+import { SEND_USER_DATA, CHANGE_TOKEN, INVALID_TOKEN } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
@@ -14,6 +14,8 @@ const loginReducer = (state = INITIAL_STATE, { type, payload }) => {
   case SEND_USER_DATA:
     return { ...state, ...payload };
   case CHANGE_TOKEN:
+    return { ...state, ...payload };
+  case INVALID_TOKEN:
     return { ...state, ...payload };
   default: return { ...state };
   }

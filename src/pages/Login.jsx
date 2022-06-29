@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { requireGravatar, requireTokenPlayer } from '../redux/actions';
+import { requireTokenPlayer, requireGravatar, requireQuestions } from '../redux/actions';
 
 const INITIAL_STATE = {
   name: '',
@@ -33,12 +33,13 @@ class Login extends Component {
   }
 
   handleClick = async () => {
-    const { history, getToken, getImage } = this.props;
-    const { gravatarEmail } = this.state;
+    const { history, getToken, getImage, getQuestions } = this.props;
     const objUser = { ...this.state };
     delete objUser.btnDisabled;
-    await getToken();
-    getImage(gravatarEmail, objUser);
+    await getImage(objUser.gravatarEmail);
+    await getToken(objUser);
+    const token = localStorage.getItem('token');
+    await getQuestions(token);
     history.push('/game');
   }
 
@@ -90,8 +91,9 @@ class Login extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  getToken: () => dispatch(requireTokenPlayer()),
-  getImage: (email, objUser) => dispatch(requireGravatar(email, objUser)),
+  getToken: (user) => dispatch(requireTokenPlayer(user)),
+  getImage: (email) => dispatch(requireGravatar(email)),
+  getQuestions: (token) => dispatch(requireQuestions(token)),
 });
 
 Login.propTypes = {
@@ -100,6 +102,7 @@ Login.propTypes = {
   }).isRequired,
   getToken: PropTypes.func.isRequired,
   getImage: PropTypes.func.isRequired,
+  getQuestions: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Login);
