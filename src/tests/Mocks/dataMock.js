@@ -11,7 +11,8 @@ export const INITAL_STORE = {
         gravatarEmail: "alguem@algum.com",
         imgURL: "https://www.gravatar.com/avatar/be343b5e35028635a6cd02ee72655332",
         token: "0b03b51ebc8a17ff01e33b0f60bea081d328ec13ae8caaba9fb2b6e660b09ddd",
-    }
+    },
+    trivia: {},
 }
 
 export const INITAL_STORE_2 = {
