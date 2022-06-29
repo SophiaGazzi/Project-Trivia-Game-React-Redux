@@ -21,40 +21,42 @@ componentDidMount() {
   const { history } = this.props;
   if (token === 'INVALID') {
     history.push('/');
+    return;
   }
   TIME_ID = setInterval(this.timeCounter, TIME_SECOND);
   const { questions, currentId } = this.props;
   const { answers } = this.state;
+  const array = [...answers];
   let { currentQuestion } = this.state;
   if (questions.length) {
     currentQuestion = questions.find((_curr, id) => id === currentId);
     currentQuestion.incorrect_answers.forEach((curr) => (
-      answers.push({ option: curr, is: 'wrong' })));
-    answers.push({ option: currentQuestion.correct_answer, is: 'right' });
-    answers.sort(() => Math.round(Math.random()) * 2 - 1);
+      array.push({ option: curr, is: 'wrong' })));
+    array.push({ option: currentQuestion.correct_answer, is: 'right' });
+    array.sort(() => Math.round(Math.random()) * 2 - 1);
     this.setState({
       currentQuestion,
-      answers,
+      answers: array,
     });
   }
 }
 
-timeCounter = () => {
-  const { countTime } = this.state;
-  if (countTime > 0) {
-    this.setState({
-      countTime: countTime - 1,
-    });
-  } else {
-    clearInterval(TIME_ID);
-    this.setState({ hasAnswered: true });
+  timeCounter = () => {
+    const { countTime } = this.state;
+    if (countTime > 0) {
+      this.setState({
+        countTime: countTime - 1,
+      });
+    } else {
+      clearInterval(TIME_ID);
+      this.setState({ hasAnswered: true });
+    }
   }
-}
 
 answerButton = (isRight) => {
   clearInterval(TIME_ID);
   this.setState({ hasAnswered: true });
-  const { score } = this.props;
+  const { newScore } = this.props;
   if (isRight === 'right') {
     const { currentQuestion: { difficulty }, countTime } = this.state;
     const ONE = 1;
@@ -68,32 +70,38 @@ answerButton = (isRight) => {
     } else {
       points = THREE;
     }
-    score(countTime, points);
+    newScore(countTime, points);
   }
 };
 
-nextBtn = async () => {
-  this.setState({ hasAnswered: false, countTime: 30 });
-  TIME_ID = setInterval(this.timeCounter, TIME_SECOND);
-  // entra aqui a action de pegar o novo ID
-  const { next, history } = this.props;
-  await next();
-  const { questions, currentId } = this.props;
-  const four = 4;
-  if (currentId > four) history.push('/feedback');
-  let { currentQuestion, answers } = this.state;
-  answers = [];
-  if (questions.length) {
-    currentQuestion = questions.find((_curr, id) => id === currentId);
-    currentQuestion.incorrect_answers.forEach((curr) => (
-      answers.push({ option: curr, is: 'wrong' })));
-    answers.push({ option: currentQuestion.correct_answer, is: 'right' });
-    answers.sort(() => Math.round(Math.random()) * 2 - 1);
-    this.setState({
-      currentQuestion,
-      answers,
-    });
-  }
+nextBtn = () => {
+  this.setState({ hasAnswered: false, countTime: 30 }, async () => {
+    TIME_ID = setInterval(this.timeCounter, TIME_SECOND);
+    // entra aqui a action de pegar o novo ID
+    const { next, history } = this.props;
+    await next();
+    const { questions, currentId } = this.props;
+    const four = 4;
+    if (currentId > four) {
+      this.setState(INITIAL_STATE, () => {
+        history.push('/feedback');
+      });
+      return;
+    }
+    let { currentQuestion, answers } = this.state;
+    answers = [];
+    if (questions.length) {
+      currentQuestion = questions.find((_curr, id) => id === currentId);
+      currentQuestion.incorrect_answers.forEach((curr) => (
+        answers.push({ option: curr, is: 'wrong' })));
+      answers.push({ option: currentQuestion.correct_answer, is: 'right' });
+      answers.sort(() => Math.round(Math.random()) * 2 - 1);
+      this.setState({
+        currentQuestion,
+        answers,
+      });
+    }
+  });
 }
 
 render() {
@@ -107,7 +115,7 @@ render() {
       <section data-testid="answer-options">
         {answers.map((curr) => (
           <button
-            className={ hasAnswered && curr.is }
+            className={ hasAnswered ? curr.is : 'bola' }
             type="button"
             disabled={ hasAnswered }
             key={ curr.option }
@@ -138,7 +146,7 @@ Questions.propTypes = {
     push: PropTypes.func,
   }).isRequired,
   next: PropTypes.func.isRequired,
-  score: PropTypes.func.isRequired,
+  newScore: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -148,12 +156,12 @@ const mapStateToProps = (state) => ({
 
 // const mapDispatchToProps = {
 //  next: nextQuestion,
-//  score: addScore,
+//  score: newScore,
 // };
 
 const mapDispatchToProps = (dispatch) => ({
   next: () => dispatch(nextQuestion),
-  score: (timer, dificuldade) => dispatch(addScore(timer, dificuldade)),
+  newScore: (timer, dificuldade) => dispatch(addScore(timer, dificuldade)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Questions);
