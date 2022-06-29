@@ -3,7 +3,7 @@ import loginReducer from './reducer1';
 import questionsReducer from './reducer2';
 
 const rootReducer = combineReducers({
-  login: loginReducer,
+  player: loginReducer,
   trivia: questionsReducer,
 });
 

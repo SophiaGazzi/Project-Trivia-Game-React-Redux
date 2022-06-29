@@ -5,7 +5,7 @@ import { requireGravatar } from '../redux/actions';
 
 class Header extends Component {
   render() {
-    const { name, imgURL } = this.props;
+    const { name, imgURL, score } = this.props;
     return (
       <div>
         <p
@@ -18,16 +18,17 @@ class Header extends Component {
           src={ imgURL }
           alt="img-avatar"
         />
-        <p data-testid="header-score">0</p>
+        <p data-testid="header-score">{ score }</p>
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  imgURL: state.login.imgURL,
-  name: state.login.name,
-  gravatarEmail: state.login.gravatarEmail,
+  imgURL: state.player.imgURL,
+  name: state.player.name,
+  gravatarEmail: state.player.gravatarEmail,
+  score: state.player.score,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -37,6 +38,11 @@ const mapDispatchToProps = (dispatch) => ({
 Header.propTypes = {
   imgURL: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  score: PropTypes.number,
+};
+
+Header.defaultProps = {
+  score: 0,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

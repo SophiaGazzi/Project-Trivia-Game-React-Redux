@@ -4,6 +4,12 @@ export const SEND_USER_DATA = 'SEND_USER_DATA';
 export const CHANGE_TOKEN = 'CHANGE_TOKEN';
 export const NEW_QUESTION = 'NEW_QUESTION';
 export const INVALID_TOKEN = 'INVALID_TOKEN';
+export const NEXT_QUESTION = 'NEXT_QUESTION';
+export const ADD_SCORE = 'ADD_SCORE';
+
+export const nextQuestion = {
+  type: NEXT_QUESTION,
+};
 
 const tokenInvalido = {
   type: INVALID_TOKEN,
@@ -75,4 +81,14 @@ export const requireTokenPlayer = (objUser) => async (dispatch) => {
       console.log(error);
     }
   }
+};
+
+export const addScore = (timer, dificuldade) => (dispatch) => {
+  const ten = 10;
+  const pontuation = ten + (timer * dificuldade);
+
+  dispatch({
+    type: ADD_SCORE,
+    payload: pontuation,
+  });
 };
