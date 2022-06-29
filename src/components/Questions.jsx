@@ -41,17 +41,19 @@ render() {
     currentQuestion.incorrect_answers.forEach((curr) => (
       answers.push({ option: curr, is: 'wrong' })));
     answers.push({ option: currentQuestion.correct_answer, is: 'right' });
-    answers.sort((a, b) => {
-      const optionOne = 1;
-      const optionTwo = -1;
-      if (a.name > b.name) {
-        return optionOne;
-      }
-      if (a.name < b.name) {
-        return optionTwo;
-      }
-      return 0;
-    });
+    answers.sort(() => Math.round(Math.random()) * 2 - 1);
+    // answers.sort((a, b) => a - b);
+    // answers.sort((a, b) => {
+    //   const optionOne = 1;
+    //   const optionTwo = -1;
+    //   if (a.name > b.name) {
+    //     return optionOne;
+    //   }
+    //   if (a.name < b.name) {
+    //     return optionTwo;
+    //   }
+    //   return 0;
+    // });
   }
 
   return (

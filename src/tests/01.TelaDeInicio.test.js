@@ -2,12 +2,23 @@ import React from "react";
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
-import Login from '../pages/Login';
+// import Login from '../pages/Login';
 import App from '../App';
 
+const mockFetch = () => {
+  jest.spyOn(global, 'fetch')
+    .mockImplementation(() => Promise.resolve({
+     json: () => Promise.resolve(),
+    }));
+};
+
 describe ('tela de Login', () => {
+
+    beforeEach(mockFetch);
+    afterEach(() => jest.clearAllMocks());
+
     it('se tem um botão de input nome e é possível escrever nele', () => {
-        renderWithRouterAndRedux(<Login />);
+        renderWithRouterAndRedux(<App />);
         const USER_NAME = 'User Teste';
 
         const nomeEL = screen.getByLabelText(/^Nome:$/i);
@@ -17,7 +28,7 @@ describe ('tela de Login', () => {
     });
 
     it('se tem um botão de input email e é possível escrever nele', () => {
-        renderWithRouterAndRedux(<Login />);
+        renderWithRouterAndRedux(<App />);
         const USER_EMAIL = 'user@example.com';
         
         const emailEL = screen.getByLabelText(/^Email:$/i);
@@ -26,7 +37,7 @@ describe ('tela de Login', () => {
         expect(emailEL.value).toBe(USER_EMAIL)
     })
 
-    it.only('se tem o botão', async () => {
+    it('se tem o botão', async () => {
        const { history } = renderWithRouterAndRedux(<App />);
        const USER_EMAIL = 'user@example.com';
        const USER_NAME = 'User Teste';
@@ -44,8 +55,8 @@ describe ('tela de Login', () => {
         expect(btnPlayEL).toBeInTheDocument();
         userEvent.click(btnPlayEL);
         await waitFor(() => {
-            expect(history.location.pathname).toBe('/game');
-        }, { timeout: 3000 });
+        expect(history.location.pathname).toBe('/game');
+        });
     });
 
     it('redireciona para "Settings"', () => {
@@ -55,4 +66,4 @@ describe ('tela de Login', () => {
         userEvent.click(btnConf);
        expect(history.location.pathname).toBe('/settings');
     })
-})
+});

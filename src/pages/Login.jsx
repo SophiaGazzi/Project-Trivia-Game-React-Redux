@@ -13,11 +13,12 @@ class Login extends Component {
   state = INITIAL_STATE;
 
   changeDisabled = () => {
-    const { name, gravatarEmail } = this.state;
-    if (name.length === 0 || gravatarEmail.length === 0) {
-      this.setState({ btnDisabled: true });
-    } else {
+    const { name, gravatarEmail, btnDisabled } = this.state;
+    if ((name.length > 0 || gravatarEmail.length > 0) && btnDisabled) {
       this.setState({ btnDisabled: false });
+    }
+    if ((name.length === 0 || gravatarEmail.length === 0) && !btnDisabled) {
+      this.setState({ btnDisabled: true });
     }
   }
 
@@ -33,6 +34,7 @@ class Login extends Component {
   }
 
   handleClick = async () => {
+    // getToken, getImage,
     const { history, getToken, getImage, getQuestions } = this.props;
     const objUser = { ...this.state };
     delete objUser.btnDisabled;

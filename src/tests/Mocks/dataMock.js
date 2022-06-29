@@ -1,18 +1,18 @@
-const requestToken1 = {
+export const requestToken1 = {
     "response_code": 0,
     "response_message": "Token Generated Successfully!",
     "token": "888623ec4f321ad14b91dc8fd438601f385370283c4ca53441e76453830153df"
 }
 
-const requestToken2 = {
+export const requestToken2 = {
     "response_code": 0,
     "response_message": "Token Generated Successfully!",
     "token": "73e530011f2e96921ce8098159875fe4a1e62f35231310c9261868ea8df8a2ea"
 }
 
-const MD5_1 = 'https://www.gravatar.com/avatar/a8f5f167f44f4964e6c998dee827110c'
+export const MD5_1 = 'https://www.gravatar.com/avatar/a8f5f167f44f4964e6c998dee827110c'
 
-const requestQuestions = [
+export const requestQuestions = [
     {
         "category": "General Knowledge",
         "type": "multiple",
