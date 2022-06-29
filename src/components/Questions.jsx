@@ -14,7 +14,6 @@ state = INITIAL_STATE;
 
 componentDidMount() {
   const token = localStorage.getItem('token');
-  console.log(token, 'tokenGame');
   const { history } = this.props;
   if (token === 'INVALID') {
     history.push('/');

@@ -35,20 +35,15 @@ const newQuestions = (questions) => ({
 export const requireQuestions = (token) => async (dispatch) => {
   try {
     const URL_FOR_QUESTIONS = `https://opentdb.com/api.php?amount=5&token=${token}`;
-    console.log(token, 'token');
     const response = await fetch(URL_FOR_QUESTIONS);
     const jsonResponse = await response.json();
     const NUMBER_CORRETO = 0;
     if (jsonResponse.response_code !== NUMBER_CORRETO) {
-      // const URL_API = 'https://opentdb.com/api_token.php?command=request';
-      // const response = await fetch(URL_API);
-      // const jsonResponse = await response.json();
-      console.log(jsonResponse, 'aqui');
-      // localStorage.clear();
       localStorage.setItem('token', 'INVALID');
       dispatch(tokenInvalido);
     } else {
       dispatch(newQuestions(jsonResponse.results));
+      console.log(jsonResponse.results, 'Question');
     }
   } catch (error) {
     console.log(error);
@@ -59,7 +54,8 @@ export const requireGravatar = (email) => async (dispatch) => {
   const hash = md5(email).toString();
   const URL = `https://www.gravatar.com/avatar/${hash}`;
 
-  // const response = await fetch(URL);
+  console.log(URL, 'MD5');
+
   dispatch(sendUserDataAction(URL));
 };
 
@@ -71,8 +67,8 @@ export const requireTokenPlayer = (objUser) => async (dispatch) => {
     try {
       const response = await fetch(URL_API);
       const jsonResponse = await response.json();
-      // console.log(jsonResponse);
       dispatch(changeToken(jsonResponse.token, objUser));
+      console.log(jsonResponse, 'Token');
       dispatch(requireQuestions(jsonResponse.token));
       localStorage.setItem('token', jsonResponse.token);
     } catch (error) {

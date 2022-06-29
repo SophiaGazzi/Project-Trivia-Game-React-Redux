@@ -4,19 +4,8 @@ import PropTypes from 'prop-types';
 import { requireGravatar } from '../redux/actions';
 
 class Header extends Component {
-  // state = {
-  //   imagem: 'https://www.gravatar.com/avatar/2bd0222634c9b4aad22d41dc8a6bbf85',
-  // }
-
-  // async componentDidMount() {
-  //   const { getImage, gravatarEmail } = this.props;
-  //   const image = await getImage(gravatarEmail);
-  //   this.setState({ imagem: image });
-  // }
-
   render() {
     const { name, imgURL } = this.props;
-    // const { imagem } = this.state;
     return (
       <div>
         <p
@@ -48,8 +37,6 @@ const mapDispatchToProps = (dispatch) => ({
 Header.propTypes = {
   imgURL: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  // gravatarEmail: PropTypes.string.isRequired,
-  // getImage: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
