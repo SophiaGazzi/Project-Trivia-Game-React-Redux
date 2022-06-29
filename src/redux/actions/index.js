@@ -4,6 +4,14 @@ export const SEND_USER_DATA = 'SEND_USER_DATA';
 export const CHANGE_TOKEN = 'CHANGE_TOKEN';
 export const NEW_QUESTION = 'NEW_QUESTION';
 export const INVALID_TOKEN = 'INVALID_TOKEN';
+export const NEXT_QUESTION = 'NEXT_QUESTION';
+export const ADD_SCORE = 'ADD_SCORE';
+export const ADD_PLAYER_IN_RANKING = 'ADD_PLAYER_IN_RANKING';
+export const CLEAR_STORE = 'CLEAR_STORE';
+
+export const nextQuestion = {
+  type: NEXT_QUESTION,
+};
 
 const tokenInvalido = {
   type: INVALID_TOKEN,
@@ -43,7 +51,6 @@ export const requireQuestions = (token) => async (dispatch) => {
       dispatch(tokenInvalido);
     } else {
       dispatch(newQuestions(jsonResponse.results));
-      console.log(jsonResponse.results, 'Question');
     }
   } catch (error) {
     console.log(error);
@@ -53,8 +60,6 @@ export const requireQuestions = (token) => async (dispatch) => {
 export const requireGravatar = (email) => async (dispatch) => {
   const hash = md5(email).toString();
   const URL = `https://www.gravatar.com/avatar/${hash}`;
-
-  console.log(URL, 'MD5');
 
   dispatch(sendUserDataAction(URL));
 };
@@ -76,3 +81,25 @@ export const requireTokenPlayer = (objUser) => async (dispatch) => {
     }
   }
 };
+
+export const addScore = (timer, dificuldade) => (dispatch) => {
+  const ten = 10;
+  const pontuation = ten + (timer * dificuldade);
+
+  dispatch({
+    type: ADD_SCORE,
+    payload: pontuation,
+  });
+};
+
+export const addPlayerInRanking = (name, picture, score) => () => {
+  const arrayJogadores = JSON.parse(localStorage.getItem('ranking')) || [];
+  const newJogador = { name, picture, score };
+  arrayJogadores.push(newJogador);
+  arrayJogadores.sort((a, b) => b.score - a.score);
+  localStorage.setItem('ranking', JSON.stringify(arrayJogadores));
+};
+
+export const clearStore = ({
+  type: CLEAR_STORE,
+});

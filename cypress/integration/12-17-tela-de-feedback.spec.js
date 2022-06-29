@@ -243,7 +243,7 @@ describe('16 - [TELA DE FEEDBACK] Crie a opção para a pessoa jogadora poder vi
   });
 });
 
-describe('17 - [TELA DE FEEDBACK] Desenvolva testes para atingir 90% de cobertura da tela de Feedbacks', () => {
+describe.only('17 - [TELA DE FEEDBACK] Desenvolva testes para atingir 90% de cobertura da tela de Feedbacks', () => {
   it('Verifica a cobertura de testes unitários', () => {
     cy.task('getCoverage', getId()).its('Feedback.functions.pct', { timeout: 0 }).should('be.gte', 90.00);
     cy.task('getCoverage', getId()).its('Feedback.lines.pct', { timeout: 0 }).should('be.gte', 90.00);

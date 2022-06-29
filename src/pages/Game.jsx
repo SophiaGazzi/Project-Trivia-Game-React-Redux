@@ -23,7 +23,7 @@ Game.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  token: state.login.token,
+  token: state.player.token,
 });
 
 export default connect(mapStateToProps)(Game);
