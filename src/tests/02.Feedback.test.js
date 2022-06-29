@@ -6,9 +6,6 @@ import Feedback from '../pages/Feedback.jsx';
 import { INITAL_STORE, INITAL_STORE_2 } from './Mocks/dataMock.js';
 import App from '../App';
 
-
-
-
 describe('Verifica a tela de feedback', () => {
     it('se tem os botões na tela, e tem 0 como score, mostrando "could be better"', () => {
         renderWithRouterAndRedux(<App />, INITAL_STORE , '/feedback')

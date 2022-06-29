@@ -1,24 +1,29 @@
+export const INITIAL_RANKING = [
+    { name: 'jogador1', picture: 'https://www.gravatar.com/avatar/f970e2767d0cfe75876ea857f92e319b', score: 179 },
+    { name: 'jogador2', picture: 'https://www.gravatar.com/avatar/be343b5e35028635a6cd02ee72655332', score: 170 }
+]
+
 export const INITAL_STORE = {
     player: {
-      name: "Alguem",
-      assertions: 0,
-      score: 0,
-      gravatarEmail:  "alguem@algum.com",
-      imgURL: "https://www.gravatar.com/avatar/be343b5e35028635a6cd02ee72655332",
-      token: "0b03b51ebc8a17ff01e33b0f60bea081d328ec13ae8caaba9fb2b6e660b09ddd",
+        name: "Alguem",
+        assertions: 0,
+        score: 0,
+        gravatarEmail: "alguem@algum.com",
+        imgURL: "https://www.gravatar.com/avatar/be343b5e35028635a6cd02ee72655332",
+        token: "0b03b51ebc8a17ff01e33b0f60bea081d328ec13ae8caaba9fb2b6e660b09ddd",
     }
-  }
-  
+}
+
 export const INITAL_STORE_2 = {
     player: {
-      name: "Alguem",
-      assertions: 4,
-      score: 200,
-      gravatarEmail:  "alguem@algum.com",
-      imgURL: "https://www.gravatar.com/avatar/be343b5e35028635a6cd02ee72655332",
-      token: "0b03b51ebc8a17ff01e33b0f60bea081d328ec13ae8caaba9fb2b6e660b09ddd",
+        name: "Alguem",
+        assertions: 4,
+        score: 200,
+        gravatarEmail: "alguem@algum.com",
+        imgURL: "https://www.gravatar.com/avatar/be343b5e35028635a6cd02ee72655332",
+        token: "0b03b51ebc8a17ff01e33b0f60bea081d328ec13ae8caaba9fb2b6e660b09ddd",
     }
-  }
+}
 
 export const requestToken1 = {
     "response_code": 0,

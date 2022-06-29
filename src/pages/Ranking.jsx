@@ -6,10 +6,6 @@ import { clearStore } from '../redux/actions';
 class Ranking extends Component {
   state = {
     ranking: [],
-  };
-
-  state = {
-    ranking: [],
   }
 
   componentDidMount = () => {
@@ -34,7 +30,7 @@ render() {
           <div key={ id }>
             <img alt={ curr.name } src={ curr.picture } />
             <h4 data-testid={ `player-name-${id}` }>{curr.name}</h4>
-            <h4 dat-testid={ `player-score-${id}` }>{curr.name && curr.score}</h4>
+            <h4 data-testid={ `player-score-${id}` }>{curr.name && curr.score}</h4>
           </div>
         ))}
       </section>
