@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { requireTokenPlayer, requireGravatar, requireQuestions } from '../redux/actions';
 
@@ -11,6 +12,14 @@ const INITIAL_STATE = {
 
 class Login extends Component {
   state = INITIAL_STATE;
+
+  // componentDidUpdate() {
+  //   const { questions, history } = this.props;
+  //   console.log(questions, 'login');
+  //   if (questions.length) {
+  //     history.push('/game');
+  //   }
+  // }
 
   changeDisabled = () => {
     const { name, gravatarEmail, btnDisabled } = this.state;
@@ -34,22 +43,24 @@ class Login extends Component {
   }
 
   handleClick = async () => {
-    const { history, getToken, getImage, getQuestions,
+    const { getToken, getImage, getQuestions,
       category, quantity, difficulty } = this.props;
     const objUser = { ...this.state };
     delete objUser.btnDisabled;
-    await getImage(objUser.gravatarEmail);
     await getToken(objUser);
     const token = localStorage.getItem('token');
     await getQuestions(token, difficulty, category, quantity);
-    history.push('/game');
+    await getImage(objUser.gravatarEmail);
+    // console.log(questions, 'login');
   }
 
   render() {
     const { btnDisabled, name, gravatarEmail } = this.state;
+    const { questions } = this.props;
 
     return (
       <div>
+        {questions.length && <Redirect to="/game" />}
         <label htmlFor="name">
           Nome:
           <input
@@ -92,17 +103,19 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = ({ settings: { category, quantity, difficulty } }) => ({
+const mapStateToProps = ({ settings:
+  { category, quantity, difficulty }, trivia: { questions } }) => ({
   category,
   quantity,
   difficulty,
+  questions,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getToken: (user) => dispatch(requireTokenPlayer(user)),
   getImage: (email) => dispatch(requireGravatar(email)),
-  getQuestions: (token, category, quantity, difficulty) => {
-    dispatch(requireQuestions(token, category, quantity, difficulty));
+  getQuestions: (token, difficulty, category, quantity) => {
+    dispatch(requireQuestions(token, difficulty, category, quantity));
   },
 });
 
@@ -116,6 +129,7 @@ Login.propTypes = {
   category: PropTypes.string,
   quantity: PropTypes.string.isRequired,
   difficulty: PropTypes.string,
+  questions: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 Login.defaultProps = {

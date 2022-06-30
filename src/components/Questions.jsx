@@ -12,25 +12,29 @@ const INITIAL_STATE = {
 };
 const TIME_SECOND = 1000;
 
+// const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 let TIME_ID = null;
 
 class Questions extends React.Component {
 state = INITIAL_STATE;
 
-componentDidMount() {
+async componentDidMount() {
   const token = localStorage.getItem('token');
   const { history } = this.props;
   if (token === 'INVALID') {
     history.push('/');
     return;
   }
+  // const ONE_SECOND = 1000;
+  // await wait(ONE_SECOND);
   TIME_ID = setInterval(this.timeCounter, TIME_SECOND);
   const { questions, currentId } = this.props;
   const { answers } = this.state;
   const array = [...answers];
   let { currentQuestion } = this.state;
   console.log(questions);
-  if (questions !== null) {
+  if (questions && questions.length) {
     currentQuestion = questions.find((_curr, id) => id === currentId);
     currentQuestion.incorrect_answers.forEach((curr) => (
       array.push({ option: curr, is: 'wrong' })));
@@ -125,7 +129,7 @@ render() {
             data-testid={ curr.is === 'wrong'
               ? `wrong-answer-${currentId}` : 'correct-answer' }
           >
-            { curr.option }
+            { curr.option.replace(/&quot;/g, '"') }
           </button>))}
         {hasAnswered && (
           <button

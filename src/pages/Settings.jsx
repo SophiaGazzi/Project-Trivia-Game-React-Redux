@@ -8,9 +8,9 @@ const INITIAL_STATE = {
   quantity: '5',
   difficulty: null,
   difficultyList: [
-    { id: 1, dif: 'Easy' },
-    { id: 2, dif: 'Medium' },
-    { id: 3, dif: 'Hard' },
+    { id: 1, dif: 'easy' },
+    { id: 2, dif: 'medium' },
+    { id: 3, dif: 'hard' },
     { id: 4, dif: 'Random' },
   ],
   ammountList: ['5', '10', '20', '30', '40', '50'],
@@ -34,7 +34,7 @@ class Settings extends Component {
 
   backToLogin = () => {
     const { history, setConfig } = this.props;
-    const { category, quantity, difficulty } = this.state;
+    const { difficulty, category, quantity } = this.state;
     setConfig(difficulty, quantity, category);
     history.push('/');
   }
@@ -97,8 +97,8 @@ const mapStateToProps = ({ settings }) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getCategories: () => dispatch(getCategoriesThunk()),
-  setConfig: (difficulty, quantity, category) => {
-    dispatch(setGameConfigAction(difficulty, quantity, category));
+  setConfig: (difficulty, category, quantity) => {
+    dispatch(setGameConfigAction(difficulty, category, quantity));
   },
 });
 

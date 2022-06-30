@@ -81,7 +81,7 @@ const selectURLToAPI = (token, dific, category, number) => {
 
   if (dific && !category) return `https://opentdb.com/api.php?amount=${number}&difficulty=${dific}`;
 
-  if (!dific && !category) return `https://opentdb.com/api.php?amount=5&token=${token}`;
+  if (!dific && !category) return `https://opentdb.com/api.php?amount=${number}&token=${token}`;
 };
 
 // const URLSemNumber = (token, dific, category) => {
@@ -107,8 +107,8 @@ export const requireQuestions = (token, dific, category, number) => async (dispa
     const response = await fetch(URL_FOR_QUESTIONS);
     const jsonResponse = await response.json();
     console.log(jsonResponse);
-    const NUMBER_CORRETO = 0;
-    if (jsonResponse.response_code !== NUMBER_CORRETO) {
+    const NUMBER_INCORRETO = 3;
+    if (jsonResponse.response_code === NUMBER_INCORRETO) {
       localStorage.setItem('token', 'INVALID');
       dispatch(tokenInvalido);
     } else {
@@ -170,7 +170,7 @@ export const getCategoriesThunk = () => async (dispatch) => {
   try {
     const response = await fetch(URL);
     const responseJSON = await response.json();
-    console.log(responseJSON);
+    // console.log(responseJSON);
     dispatch(getCategoriesAction(responseJSON.trivia_categories));
   } catch (error) {
     console.log(error);
