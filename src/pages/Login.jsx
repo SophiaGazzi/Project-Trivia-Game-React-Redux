@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+// import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { requireTokenPlayer, requireGravatar, requireQuestions } from '../redux/actions';
 
@@ -13,13 +13,13 @@ const INITIAL_STATE = {
 class Login extends Component {
   state = INITIAL_STATE;
 
-  // componentDidUpdate() {
-  //   const { questions, history } = this.props;
-  //   console.log(questions, 'login');
-  //   if (questions.length) {
-  //     history.push('/game');
-  //   }
-  // }
+  componentDidUpdate() {
+    const { questions, history } = this.props;
+    console.log(questions, 'login');
+    if (questions.length) {
+      history.push('/game');
+    }
+  }
 
   changeDisabled = () => {
     const { name, gravatarEmail, btnDisabled } = this.state;
@@ -56,11 +56,11 @@ class Login extends Component {
 
   render() {
     const { btnDisabled, name, gravatarEmail } = this.state;
-    const { questions } = this.props;
+    // const { questions } = this.props;
 
     return (
       <div>
-        {questions.length && <Redirect to="/game" />}
+        {/* {questions.length && <Redirect to="/game" />} */}
         <label htmlFor="name">
           Nome:
           <input

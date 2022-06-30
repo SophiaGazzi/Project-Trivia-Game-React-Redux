@@ -36,9 +36,14 @@ async componentDidMount() {
   console.log(questions);
   if (questions && questions.length) {
     currentQuestion = questions.find((_curr, id) => id === currentId);
+    const upDateQuestion = this.replaceFunc(currentQuestion.question);
+    currentQuestion = {
+      ...currentQuestion,
+      question: upDateQuestion,
+    };
     currentQuestion.incorrect_answers.forEach((curr) => (
-      array.push({ option: curr, is: 'wrong' })));
-    array.push({ option: currentQuestion.correct_answer, is: 'right' });
+      array.push({ option: this.replaceFunc(curr), is: 'wrong' })));
+    array.push({ option: this.replaceFunc(currentQuestion.correct_answer), is: 'right' });
     array.sort(() => Math.round(Math.random()) * 2 - 1);
     this.setState({
       currentQuestion,
@@ -98,9 +103,15 @@ nextBtn = () => {
     let { currentQuestion, answers } = this.state;
     answers = [];
     currentQuestion = questions.find((_curr, id) => id === currentId);
+    const upDateQuestion = this.replaceFunc(currentQuestion.question);
+    currentQuestion = {
+      ...currentQuestion,
+      question: upDateQuestion,
+    };
     currentQuestion.incorrect_answers.forEach((curr) => (
-      answers.push({ option: curr, is: 'wrong' })));
-    answers.push({ option: currentQuestion.correct_answer, is: 'right' });
+      answers.push({ option: this.replaceFunc(curr), is: 'wrong' })));
+    answers
+      .push({ option: this.replaceFunc(currentQuestion.correct_answer), is: 'right' });
     answers.sort(() => Math.round(Math.random()) * 2 - 1);
     this.setState({
       currentQuestion,
@@ -109,13 +120,27 @@ nextBtn = () => {
   });
 }
 
+replaceFunc = (string) => string
+  .replace(/&#039;/g, '\'')
+  .replace(/&quot;/g, '"')
+  .replace(/&amp/g, '&')
+  .replace(/&deg/g, '°')
+  .replace(/&rsquo;/g, '´')
+  .replace(/&uuml;/g, 'ü')
+  .replace(/&eacute;/g, 'é');
+
 render() {
   const { hasAnswered, currentQuestion, answers, countTime, deuMerda } = this.state;
   const { currentId } = this.props;
   return (
     <div>
       <p data-testid="question-category">{currentQuestion?.category}</p>
-      <p data-testid="question-text">{currentQuestion?.question}</p>
+      <p
+        data-testid="question-text"
+      >
+        {currentQuestion?.question}
+
+      </p>
       <p data-testid="count-btn">{ countTime }</p>
       {deuMerda && <h1>FUUU....DEUMERDA</h1>}
       <section data-testid="answer-options">
@@ -129,7 +154,7 @@ render() {
             data-testid={ curr.is === 'wrong'
               ? `wrong-answer-${currentId}` : 'correct-answer' }
           >
-            { curr.option.replace(/&quot;/g, '"') }
+            { curr.option }
           </button>))}
         {hasAnswered && (
           <button
