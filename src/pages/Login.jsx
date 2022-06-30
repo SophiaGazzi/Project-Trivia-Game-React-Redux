@@ -14,7 +14,7 @@ class Login extends Component {
 
   changeDisabled = () => {
     const { name, gravatarEmail, btnDisabled } = this.state;
-    if ((name.length > 0 || gravatarEmail.length > 0) && btnDisabled) {
+    if ((name.length > 0 && gravatarEmail.length > 0) && btnDisabled) {
       this.setState({ btnDisabled: false });
     }
     if ((name.length === 0 || gravatarEmail.length === 0) && !btnDisabled) {
@@ -34,13 +34,14 @@ class Login extends Component {
   }
 
   handleClick = async () => {
-    const { history, getToken, getImage, getQuestions } = this.props;
+    const { history, getToken, getImage, getQuestions,
+      category, quantity, difficulty } = this.props;
     const objUser = { ...this.state };
     delete objUser.btnDisabled;
     await getImage(objUser.gravatarEmail);
     await getToken(objUser);
     const token = localStorage.getItem('token');
-    await getQuestions(token);
+    await getQuestions(token, difficulty, category, quantity);
     history.push('/game');
   }
 
@@ -91,10 +92,18 @@ class Login extends Component {
   }
 }
 
+const mapStateToProps = ({ settings: { category, quantity, difficulty } }) => ({
+  category,
+  quantity,
+  difficulty,
+});
+
 const mapDispatchToProps = (dispatch) => ({
   getToken: (user) => dispatch(requireTokenPlayer(user)),
   getImage: (email) => dispatch(requireGravatar(email)),
-  getQuestions: (token) => dispatch(requireQuestions(token)),
+  getQuestions: (token, category, quantity, difficulty) => {
+    dispatch(requireQuestions(token, category, quantity, difficulty));
+  },
 });
 
 Login.propTypes = {
@@ -104,6 +113,14 @@ Login.propTypes = {
   getToken: PropTypes.func.isRequired,
   getImage: PropTypes.func.isRequired,
   getQuestions: PropTypes.func.isRequired,
+  category: PropTypes.string,
+  quantity: PropTypes.string.isRequired,
+  difficulty: PropTypes.string,
 };
 
-export default connect(null, mapDispatchToProps)(Login);
+Login.defaultProps = {
+  category: null,
+  difficulty: null,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

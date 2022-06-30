@@ -29,6 +29,7 @@ componentDidMount() {
   const { answers } = this.state;
   const array = [...answers];
   let { currentQuestion } = this.state;
+  console.log(questions);
   if (questions !== null) {
     currentQuestion = questions.find((_curr, id) => id === currentId);
     currentQuestion.incorrect_answers.forEach((curr) => (
@@ -84,8 +85,7 @@ nextBtn = () => {
     const { next, history } = this.props;
     await next();
     const { questions, currentId } = this.props;
-    const four = 4;
-    if (currentId > four) {
+    if (currentId > questions.length - 1) {
       this.setState(INITIAL_STATE, () => {
         history.push('/feedback');
       });

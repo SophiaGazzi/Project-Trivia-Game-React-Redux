@@ -8,6 +8,40 @@ export const NEXT_QUESTION = 'NEXT_QUESTION';
 export const ADD_SCORE = 'ADD_SCORE';
 export const ADD_PLAYER_IN_RANKING = 'ADD_PLAYER_IN_RANKING';
 export const CLEAR_STORE = 'CLEAR_STORE';
+export const GET_CATEGORIES = 'GET_CATEGORIES';
+export const SET_GAME_CONFIG = 'SET_GAME_CONFIG';
+// export const SET_DIFFICULTY = 'SET_DIFFICULTY';
+// export const SET_NUMBERS_OF_QUESTIONS = 'SET_NUMBERS_OF_QUESTIONS';
+
+export const setGameConfigAction = (difficulty, quantity, category) => ({
+  type: SET_GAME_CONFIG,
+  payload: {
+    difficulty,
+    quantity,
+    category,
+  },
+});
+
+// export const setNumberOfQuestionsAction = (numberOfQuestions) => ({
+//   type: SET_NUMBERS_OF_QUESTIONS,
+//   payload: {
+//     numberOfQuestions,
+//   },
+// });
+
+// export const setCategoryAction = (category) => ({
+//   type: SET_CATEGORY,
+//   payload: {
+//     category,
+//   },
+// });
+
+export const getCategoriesAction = (categories) => ({
+  type: GET_CATEGORIES,
+  payload: {
+    categories,
+  },
+});
 
 export const nextQuestion = {
   type: NEXT_QUESTION,
@@ -40,9 +74,36 @@ const newQuestions = (questions) => ({
   payload: questions,
 });
 
-export const requireQuestions = (token) => async (dispatch) => {
+const selectURLToAPI = (token, dific, category, number) => {
+  if (dific && category) return `https://opentdb.com/api.php?amount=${number}&category=${category}&difficulty=${dific}`;
+
+  if (!dific && category) return `https://opentdb.com/api.php?amount=${number}&category=${category}`;
+
+  if (dific && !category) return `https://opentdb.com/api.php?amount=${number}&difficulty=${dific}`;
+
+  if (!dific && !category) return `https://opentdb.com/api.php?amount=5&token=${token}`;
+};
+
+// const URLSemNumber = (token, dific, category) => {
+//   if (dific && category) return `https://opentdb.com/api.php?amount=5&category=${category}&difficulty=${dific}&token=${token}`;
+
+//   if (dific && !category) return `https://opentdb.com/api.php?amount=5&difficulty=${dific}&token=${token}`;
+
+//   if (!dific && category) return `https://opentdb.com/api.php?amount=5&category=${category}&token=${token}`;
+
+//   return `https://opentdb.com/api.php?amount=5&token=${token}`;
+// };
+
+// const selectURLToAPI = (token, dific, category, number) => {
+//   if (number) return URLComNumber(token, dific, category, number);
+
+//   // if (!number) return URLSemNumber(token, dific, category);
+// };
+
+export const requireQuestions = (token, dific, category, number) => async (dispatch) => {
+  const URL_FOR_QUESTIONS = selectURLToAPI(token, dific, category, number);
+  console.log(URL_FOR_QUESTIONS);
   try {
-    const URL_FOR_QUESTIONS = `https://opentdb.com/api.php?amount=5&token=${token}`;
     const response = await fetch(URL_FOR_QUESTIONS);
     const jsonResponse = await response.json();
     console.log(jsonResponse);
@@ -74,7 +135,6 @@ export const requireTokenPlayer = (objUser) => async (dispatch) => {
       const response = await fetch(URL_API);
       const jsonResponse = await response.json();
       dispatch(changeToken(jsonResponse.token, objUser));
-      console.log(jsonResponse, 'Token');
       dispatch(requireQuestions(jsonResponse.token));
       localStorage.setItem('token', jsonResponse.token);
     } catch (error) {
@@ -104,3 +164,15 @@ export const addPlayerInRanking = (name, picture, score) => () => {
 export const clearStore = ({
   type: CLEAR_STORE,
 });
+
+export const getCategoriesThunk = () => async (dispatch) => {
+  const URL = 'https://opentdb.com/api_category.php';
+  try {
+    const response = await fetch(URL);
+    const responseJSON = await response.json();
+    console.log(responseJSON);
+    dispatch(getCategoriesAction(responseJSON.trivia_categories));
+  } catch (error) {
+    console.log(error);
+  }
+};
