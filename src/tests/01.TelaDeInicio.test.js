@@ -2,6 +2,7 @@ import React from "react";
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
+import { INITAL_STORE } from './Mocks/dataMock.js';
 // import Login from '../pages/Login';
 import App from '../App';
 
@@ -38,7 +39,7 @@ describe ('tela de Login', () => {
     })
 
     it('se tem o botão', async () => {
-       const { history } = renderWithRouterAndRedux(<App />);
+       const { history } = renderWithRouterAndRedux(<App />, INITAL_STORE);
        const USER_EMAIL = 'user@example.com';
        const USER_NAME = 'User Teste';
         
