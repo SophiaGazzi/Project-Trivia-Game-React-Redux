@@ -2,7 +2,7 @@ import React from "react";
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
-import Feedback from '../pages/Feedback.jsx';
+// import Feedback from '../pages/Feedback.jsx';
 import { INITAL_STORE, INITAL_STORE_2 } from './Mocks/dataMock.js';
 import App from '../App';
 

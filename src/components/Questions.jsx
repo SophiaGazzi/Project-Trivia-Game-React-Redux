@@ -8,6 +8,7 @@ const INITIAL_STATE = {
   hasAnswered: false,
   answers: [],
   currentQuestion: {},
+  deuMerda: false,
 };
 const TIME_SECOND = 1000;
 
@@ -28,7 +29,7 @@ componentDidMount() {
   const { answers } = this.state;
   const array = [...answers];
   let { currentQuestion } = this.state;
-  if (questions.length) {
+  if (questions !== null) {
     currentQuestion = questions.find((_curr, id) => id === currentId);
     currentQuestion.incorrect_answers.forEach((curr) => (
       array.push({ option: curr, is: 'wrong' })));
@@ -38,6 +39,8 @@ componentDidMount() {
       currentQuestion,
       answers: array,
     });
+  } else {
+    this.setState({ deuMerda: true });
   }
 }
 
@@ -90,28 +93,27 @@ nextBtn = () => {
     }
     let { currentQuestion, answers } = this.state;
     answers = [];
-    if (questions.length) {
-      currentQuestion = questions.find((_curr, id) => id === currentId);
-      currentQuestion.incorrect_answers.forEach((curr) => (
-        answers.push({ option: curr, is: 'wrong' })));
-      answers.push({ option: currentQuestion.correct_answer, is: 'right' });
-      answers.sort(() => Math.round(Math.random()) * 2 - 1);
-      this.setState({
-        currentQuestion,
-        answers,
-      });
-    }
+    currentQuestion = questions.find((_curr, id) => id === currentId);
+    currentQuestion.incorrect_answers.forEach((curr) => (
+      answers.push({ option: curr, is: 'wrong' })));
+    answers.push({ option: currentQuestion.correct_answer, is: 'right' });
+    answers.sort(() => Math.round(Math.random()) * 2 - 1);
+    this.setState({
+      currentQuestion,
+      answers,
+    });
   });
 }
 
 render() {
-  const { hasAnswered, currentQuestion, answers, countTime } = this.state;
+  const { hasAnswered, currentQuestion, answers, countTime, deuMerda } = this.state;
   const { currentId } = this.props;
   return (
     <div>
       <p data-testid="question-category">{currentQuestion?.category}</p>
       <p data-testid="question-text">{currentQuestion?.question}</p>
-      <p>{ countTime }</p>
+      <p data-testid="count-btn">{ countTime }</p>
+      {deuMerda && <h1>FUUU....DEUMERDA</h1>}
       <section data-testid="answer-options">
         {answers.map((curr) => (
           <button

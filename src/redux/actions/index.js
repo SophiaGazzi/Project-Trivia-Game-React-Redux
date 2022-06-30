@@ -45,6 +45,7 @@ export const requireQuestions = (token) => async (dispatch) => {
     const URL_FOR_QUESTIONS = `https://opentdb.com/api.php?amount=5&token=${token}`;
     const response = await fetch(URL_FOR_QUESTIONS);
     const jsonResponse = await response.json();
+    console.log(jsonResponse);
     const NUMBER_CORRETO = 0;
     if (jsonResponse.response_code !== NUMBER_CORRETO) {
       localStorage.setItem('token', 'INVALID');
