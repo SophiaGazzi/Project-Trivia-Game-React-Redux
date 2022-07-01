@@ -1,7 +1,12 @@
+/* eslint-disable no-magic-numbers */
+/* eslint-disable react/jsx-first-prop-new-line */
+/* eslint-disable jsx-a11y/media-has-caption */
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { nextQuestion, addScore } from '../redux/actions';
+
+// const musicURL = 'https://soundcloud.com/rileywalz/kahoot-in-game-music-20-second?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing';
 
 const INITIAL_STATE = {
   countTime: 30,
@@ -14,11 +19,12 @@ const TIME_SECOND = 1000;
 
 // const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-let TIME_ID = null;
+// let TIME_ID = null;
 
 class Questions extends React.Component {
 state = INITIAL_STATE;
 
+// audio = new Audio(url('../show.mp3'));
 async componentDidMount() {
   const token = localStorage.getItem('token');
   const { history } = this.props;
@@ -28,7 +34,7 @@ async componentDidMount() {
   }
   // const ONE_SECOND = 1000;
   // await wait(ONE_SECOND);
-  TIME_ID = setInterval(this.timeCounter, TIME_SECOND);
+  this.TIME_ID = setInterval(this.timeCounter, TIME_SECOND);
   const { questions, currentId } = this.props;
   const { answers } = this.state;
   const array = [...answers];
@@ -61,13 +67,13 @@ async componentDidMount() {
         countTime: countTime - 1,
       });
     } else {
-      clearInterval(TIME_ID);
+      clearInterval(this.TIME_ID);
       this.setState({ hasAnswered: true });
     }
   }
 
 answerButton = (isRight) => {
-  clearInterval(TIME_ID);
+  clearInterval(this.TIME_ID);
   this.setState({ hasAnswered: true });
   const { newScore } = this.props;
   if (isRight === 'right') {
@@ -89,7 +95,7 @@ answerButton = (isRight) => {
 
 nextBtn = () => {
   this.setState({ hasAnswered: false, countTime: 30 }, async () => {
-    TIME_ID = setInterval(this.timeCounter, TIME_SECOND);
+    this.TIME_ID = setInterval(this.timeCounter, TIME_SECOND);
     // entra aqui a action de pegar o novo ID
     const { next, history } = this.props;
     await next();
@@ -133,20 +139,35 @@ render() {
   const { hasAnswered, currentQuestion, answers, countTime, deuMerda } = this.state;
   const { currentId } = this.props;
   return (
-    <div>
-      <p data-testid="question-category">{currentQuestion?.category}</p>
+    <div className="trivia-page">
+      <section className="counter-category">
+        <p data-testid="question-category">
+          Category:
+          {' '}
+          {currentQuestion?.category}
+        </p>
+        <div className={ countTime >= 10
+          ? 'count-btn count-yellow' : 'count-btn count-red' }
+        >
+          <p>
+            { countTime }
+          </p>
+        </div>
+      </section>
       <p
         data-testid="question-text"
       >
         {currentQuestion?.question}
-
       </p>
-      <p data-testid="count-btn">{ countTime }</p>
       {deuMerda && <h1>FUUU....DEUMERDA</h1>}
-      <section data-testid="answer-options">
+      <section className="botoes" data-testid="answer-options">
         {answers.map((curr) => (
           <button
-            className={ hasAnswered ? curr.is : 'bola' }
+            // eslint-disable-next-line no-nested-ternary
+            className={ hasAnswered
+              ? (curr.is === 'right'
+                ? 'btn btn-success' : 'btn btn-danger')
+              : 'bola btn btn-warning' }
             type="button"
             disabled={ hasAnswered }
             key={ curr.option }
@@ -158,13 +179,19 @@ render() {
           </button>))}
         {hasAnswered && (
           <button
-            data-testid="btn-next"
+            id="button-next"
+            className="btn-dark btn"
             onClick={ this.nextBtn }
             type="button"
           >
             Próximo
           </button>)}
       </section>
+      {/* <audio preload="metadata" scr={ musicURL } autoPlay controls>
+        <track kind="captions" />
+        O seu navegador não suporta o elemento
+        <code>audio</code>
+      </audio> */}
     </div>
   );
 }

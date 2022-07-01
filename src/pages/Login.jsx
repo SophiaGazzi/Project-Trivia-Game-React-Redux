@@ -2,7 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { requireTokenPlayer, requireGravatar, requireQuestions } from '../redux/actions';
+import {
+  requireTokenPlayer,
+  requireGravatar,
+  requireQuestions,
+} from '../redux/actions';
+import trivia from '../trivia.png';
 
 const INITIAL_STATE = {
   name: '',
@@ -23,28 +28,32 @@ class Login extends Component {
 
   changeDisabled = () => {
     const { name, gravatarEmail, btnDisabled } = this.state;
-    if ((name.length > 0 && gravatarEmail.length > 0) && btnDisabled) {
+    if (name.length > 0 && gravatarEmail.length > 0 && btnDisabled) {
       this.setState({ btnDisabled: false });
     }
     if ((name.length === 0 || gravatarEmail.length === 0) && !btnDisabled) {
       this.setState({ btnDisabled: true });
     }
-  }
+  };
 
   onHandleChange = ({ target: { name, value } }) => {
-    this.setState({
-      [name]: value,
-    }, () => this.changeDisabled());
-  }
+    this.setState(
+      {
+        [name]: value,
+      },
+      () => this.changeDisabled(),
+    );
+  };
 
   sendToConfigPage = () => {
     const { history } = this.props;
     history.push('/settings');
-  }
+  };
 
   handleClick = async () => {
-    const { getToken, getImage, getQuestions,
-      category, quantity, difficulty } = this.props;
+    const {
+      getToken,
+      getImage, getQuestions, category, quantity, difficulty } = this.props;
     const objUser = { ...this.state };
     delete objUser.btnDisabled;
     await getToken(objUser);
@@ -52,18 +61,20 @@ class Login extends Component {
     await getQuestions(token, difficulty, category, quantity);
     await getImage(objUser.gravatarEmail);
     // console.log(questions, 'login');
-  }
+  };
 
   render() {
     const { btnDisabled, name, gravatarEmail } = this.state;
     // const { questions } = this.props;
 
     return (
-      <div>
+      <div className="login-page">
+        <img src={ trivia } alt="logo" className="App-logo" />
         {/* {questions.length && <Redirect to="/game" />} */}
         <label htmlFor="name">
-          Nome:
+          <p>Nome:</p>
           <input
+            className="form-control"
             data-testid="input-player-name"
             type="text"
             name="name"
@@ -73,8 +84,9 @@ class Login extends Component {
           />
         </label>
         <label htmlFor="email">
-          Email:
+          <p>Email:</p>
           <input
+            className="form-control"
             data-testid="input-gravatar-email"
             type="email"
             name="gravatarEmail"
@@ -83,28 +95,43 @@ class Login extends Component {
             onChange={ this.onHandleChange }
           />
         </label>
-        <button
-          disabled={ btnDisabled }
-          onClick={ this.handleClick }
-          type="button"
-          data-testid="btn-play"
+        <div className="buttons">
+          <button
+            className="btn btn-danger"
+            disabled={ btnDisabled }
+            onClick={ this.handleClick }
+            type="button"
+            data-testid="btn-play"
+          >
+            Jogar
+          </button>
+          <button
+            className="btn btn-primary"
+            type="button"
+            data-testid="btn-settings"
+            onClick={ this.sendToConfigPage }
+          >
+            Configurar
+          </button>
+        </div>
+        {/* <audio
+          src="https://developer.mozilla.org/@api/deki/files/2926/=AudioTest_(1).ogg"
+          autoPlay
+          controls
         >
-          Jogar
-        </button>
-        <button
-          type="button"
-          data-testid="btn-settings"
-          onClick={ this.sendToConfigPage }
-        >
-          Configurar
-        </button>
+          <track kind="captions" />
+          O seu navegador não suporta o elemento
+          <code>audio</code>
+        </audio> */}
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ settings:
-  { category, quantity, difficulty }, trivia: { questions } }) => ({
+const mapStateToProps = ({
+  settings: { category, quantity, difficulty },
+  trivia: { questions },
+}) => ({
   category,
   quantity,
   difficulty,

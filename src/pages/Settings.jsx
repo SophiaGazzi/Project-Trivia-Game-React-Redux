@@ -44,11 +44,12 @@ class Settings extends Component {
       quantity, difficulty, difficultyList, ammountList, categoriesList } = this.state;
     // const { categories } = this.props;
     return (
-      <div>
-        <h1 data-testid="settings-title">Configurações</h1>
-        <label htmlFor="category">
+      <div className="settings-page">
+        <h1 className="settings-title">⚙ Configurações </h1>
+        <label className="label-settings" htmlFor="category">
           Categorias:
           <select
+            className="form-select"
             value={ category }
             id="category"
             name="category"
@@ -60,9 +61,10 @@ class Settings extends Component {
             <option value="Random">Random</option>
           </select>
         </label>
-        <label htmlFor="difficulty">
+        <label className="label-settings" htmlFor="difficulty">
           Dificuldade:
           <select
+            className="form-select"
             value={ difficulty }
             id="difficulty"
             name="difficulty"
@@ -73,9 +75,10 @@ class Settings extends Component {
             ))}
           </select>
         </label>
-        <label htmlFor="quantity">
+        <label className="label-settings" htmlFor="quantity">
           Quantidade:
           <select
+            className="form-select"
             value={ quantity }
             id="quantity"
             name="quantity"
@@ -86,7 +89,13 @@ class Settings extends Component {
             ))}
           </select>
         </label>
-        <button type="button" onClick={ this.backToLogin }>Ok</button>
+        <button
+          className="btn btn-dark btn-settings"
+          type="button"
+          onClick={ this.backToLogin }
+        >
+          Ok
+        </button>
       </div>
     );
   }
