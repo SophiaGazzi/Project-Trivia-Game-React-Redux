@@ -22,34 +22,39 @@ class Feedback extends Component {
   render() {
     const { acertos, score } = this.props;
     return (
-      <div>
+      <section>
         <Header />
-        <p data-testid="feedback-text">
-          { acertos < NUMBER_TRES ? 'Could be better...' : 'Well Done!' }
-        </p>
-        <p data-testid="feedback-total-question">
-          { acertos }
-        </p>
-        <p data-testid="feedback-total-score">
-          { score }
-        </p>
-        <button
-          onClick={ this.nextGame }
-          data-testid="btn-play-again"
-          type="button"
-        >
-          Play Again
-        </button>
-        <Link to="/ranking">
-          <button
-            type="button"
-            data-testid="btn-ranking"
-          >
-            Ranking
-          </button>
-        </Link>
-
-      </div>
+        <div className="feedback-page">
+          <p data-testid="feedback-text">
+            { acertos < NUMBER_TRES ? 'Could be better...' : 'Well Done!' }
+          </p>
+          <p data-testid="feedback-total-question">
+            { acertos }
+          </p>
+          <p data-testid="feedback-total-score">
+            { score }
+          </p>
+          <div className="buttons">
+            <button
+              className="btn-danger btn"
+              onClick={ this.nextGame }
+              data-testid="btn-play-again"
+              type="button"
+            >
+              Play Again
+            </button>
+            <Link to="/ranking">
+              <button
+                className="btn-dark btn"
+                type="button"
+                data-testid="btn-ranking"
+              >
+                Ranking
+              </button>
+            </Link>
+          </div>
+        </div>
+      </section>
     );
   }
 }

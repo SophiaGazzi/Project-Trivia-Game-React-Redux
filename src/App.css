@@ -1,16 +1,40 @@
-body {
+* {
+  padding: 0;
+  margin: 0;
   box-sizing: border-box;
+}
+
+p {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.login-page {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   margin: 0;
   padding: 0;
+  height: 100vh;
+  background: url('https://2v9xey2o80cl1dh164410pjg-wpengine.netdna-ssl.com/wp-content/uploads/2019/01/trivia-background.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+label p {
+  font-size: 18px;
+  font-weight: 600;
 }
 
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 15vmin;
-  pointer-events: none;
+@media ( prefers-reduced-motion : no-preference ) {
+
+  .App-logo {
+    animation: shake infinite 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  }
 }
 
 .wrong {
@@ -21,26 +45,24 @@ body {
   border: 3px solid rgb(6, 240, 15);
 }
 
-@media ( prefers-reduced-motion : no-preference ) {
-
-  .App-logo {
-    animation: shake infinite 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-  }
+.login-page img {
+  margin-top: 8%;
+  width: 30%; 
 }
 
-.App-header {
-  align-items: center;
-  background-color: #282c34;
-  color: white;
+.buttons {
+  margin: 10px;
   display: flex;
-  flex-direction: column;
-  font-size: calc(10px + 2vmin);
-  justify-content: center;
-  min-height: 100vh;
+  justify-content: space-between;
 }
 
-.App-link {
-  color: #61dafb;
+.buttons button {
+  margin: 5px;
+}
+
+label {
+  margin-top: 20px;
+  justify-content: center;
 }
 
 @keyframes shake {
@@ -60,4 +82,165 @@ body {
   40%, 60% {
     transform: translate3d(4px, 0, 0);
   }
+}
+
+
+/* estilização do header*/
+
+header {
+  background-color: #FFCC4D;
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+header p {
+  margin: 0;
+  margin-left: 5px;
+}
+
+header div {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+/* Game */
+.trivia-page {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.trivia-page .btn {
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+  width: 600px;
+  box-shadow: 10px 5px 5px black;
+}
+
+/* https://www.youthdownloads.com/triviamaker/TriviaMaker/Theme/v4/standard/Feud%20BG.jpg */
+
+.questions-container {
+  background: url('./Vector\ HD\ Wallpaper\ Background\ Image\ 2560x1600\ ID117149.jpg');
+  background-size: cover;
+  height: 100vh;
+  background-repeat: no-repeat;
+  /* background-color: #FFCC4D; */
+}
+
+.trivia-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#button-next {
+  margin-top: 30px;
+  align-self: center;
+  width: 150px;
+} 
+
+.count-btn {
+  display: flex;
+  border-radius: 10px;
+  padding: 5px 25px;
+  width: 75px;
+  height: 60px;
+  justify-content: center;
+  align-items: center;
+}
+
+.count-btn p {
+  font-weight: 500;
+  font-size: 35px;
+  margin: 0;
+}
+
+.count-yellow {
+  background-color: green;
+  text-align: center;
+}
+
+.count-red {
+  background-color: rgba(255, 0, 0, 0.637);
+  text-align: center;
+}
+
+.counter-category {
+  width: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.thinkingGif {
+  position: absolute;
+  width: 10%;
+  top: 80%;
+}
+
+.botoes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/*Configurações */
+
+.settings-title {
+  margin-top: 20px;
+}
+
+.btn-settings {
+width: 10%;
+margin-top: 20px;
+box-shadow: 10px 5px 5px black;
+}
+
+.form-select {
+  width: 300px;
+}
+
+.label-settings {
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.settings-page, .feedback-page, .rank-page {
+  background: url('./Vector\ HD\ Wallpaper\ Background\ Image\ 2560x1600\ ID117149.jpg');
+  background-size: cover;
+  height: 100vh;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rank-page h1 {
+  margin: 20px 0;
+  font-weight: 600;
+}
+
+.fulano-rank {
+  margin: 15px 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.fulano-rank h4 {
+  margin: 0 10px;
 }

@@ -8,7 +8,8 @@ class Game extends Component {
   render() {
     const { history } = this.props;
     return (
-      <div>
+      <div className="questions-container">
+        <img className="thinkingGif" src="https://i.pinimg.com/originals/3b/dc/ab/3bdcab2937d0f583ba8ed16e9bd6463f.gif" alt="thinking gif" />
         <Header />
         <Questions history={ history } />
       </div>

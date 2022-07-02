@@ -147,8 +147,9 @@ describe("Testa as questões", () => {
     userEvent.click(correctAnswer);
     const nextBtn = screen.queryByTestId('btn-next');
     userEvent.click(nextBtn);
+    await waitFor(() => expect(nextBtn).not.toBeInTheDocument());
     correctAnswer = screen.getByTestId('correct-answer');
-    const expectScore = 200;
+    const expectScore = 140;
     const headerScore = screen.getByTestId('header-score');
     userEvent.click(correctAnswer);
     await waitFor(() =>  expect(headerScore).toHaveTextContent(expectScore));
@@ -162,22 +163,24 @@ describe("Testa as questões", () => {
     userEvent.click(correctAnswer);
     let nextBtn = screen.queryByTestId('btn-next');
     userEvent.click(nextBtn);
+    await waitFor(() => expect(nextBtn).not.toBeInTheDocument());
     
     correctAnswer = screen.queryByTestId('correct-answer');
     userEvent.click(correctAnswer);
     nextBtn = screen.queryByTestId('btn-next');
     userEvent.click(nextBtn);
+    await waitFor(() => expect(nextBtn).not.toBeInTheDocument());
 
     correctAnswer = screen.queryByTestId('correct-answer');
     userEvent.click(correctAnswer);
     
-    const expectScore = 300;
+    const expectScore = 210;
     const headerScore = screen.queryByTestId('header-score');
     // const correctAnswer = screen.getByTestId('correct-answer');
     await waitFor(() =>  expect(headerScore).toHaveTextContent(expectScore));
   })
 
-  it('Checa se vc erra igual um tanso', async () => {
+  it('Checa se vc erra uma questão', async () => {
     renderWithRouterAndRedux(<App />, INITAL_STORE, "/game");
     
     const wrongAnswers = screen.getAllByTestId('wrong-answer-0');
@@ -186,7 +189,7 @@ describe("Testa as questões", () => {
     expect(headerScore).toHaveTextContent(0);
   });
 
-  it('Checa se as questions nao chegam', async () => {
+  it('Checa se as questions nao chegarem', async () => {
       
   const INITAL_STORE_T = {
     player: {
